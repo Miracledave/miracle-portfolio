@@ -42,11 +42,11 @@ const About = () => {
             </p>
             <div className="flex gap-4">
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-500">3+</div>
+                <div className="text-3xl font-bold text-blue-500">2+</div>
                 <div className="text-sm text-gray-500">Years Exp.</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-500">50+</div>
+                <div className="text-3xl font-bold text-blue-500">12+</div>
                 <div className="text-sm text-gray-500">Projects</div>
               </div>
               {/* <div className="text-center">
