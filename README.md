@@ -1,16 +1,63 @@
-# React + Vite
+# Ndubuisi Miracle — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio site. Built with React, Vite, Tailwind CSS and Framer Motion,
+deployed on Vercel.
 
-Currently, two official plugins are available:
+**Live:** https://miracle-portfolio-rust.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Running locally
 
-## React Compiler
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # production build to dist/
+npm run preview  # serve the production build
+npm run lint
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Editing the content
 
-## Expanding the ESLint configuration
+Almost everything you'd want to change — bio, projects, skills, social links,
+résumé filename — lives in one file:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/data/site.js
+```
+
+The components read from it, so you rarely need to touch JSX to update the site.
+
+## Contact form
+
+The form posts to [Web3Forms](https://web3forms.com), which needs a free access
+key (enter your email on their site — no account required).
+
+1. Copy `.env.example` to `.env.local` and set `VITE_WEB3FORMS_KEY`.
+2. On Vercel: **Project → Settings → Environment Variables** → add
+   `VITE_WEB3FORMS_KEY`, then redeploy.
+
+If the key is not set, the form falls back to opening the visitor's mail client
+rather than silently dropping the message.
+
+## Structure
+
+```
+public/            static assets served at the site root
+  profile.jpg      portrait used in the About section
+  og-image.jpg     social sharing preview card (1200×630)
+  favicon.svg
+  Ndubuisi-Miracle-CV.docx
+src/
+  data/site.js     all site content
+  components/      one component per section, plus shared primitives
+  index.css        Tailwind layers + design tokens
+tailwind.config.js design system (colours, type scale, fonts)
+vercel.json        caching + security headers
+```
+
+## Notes
+
+- Assets in `public/` are served from the site root, so reference them as
+  `/profile.jpg` — **not** `../../public/profile.jpg`, which 404s in the
+  production build.
+- `lucide-react` v1 removed brand icons, so the GitHub and LinkedIn marks are
+  inline SVGs in `src/components/BrandIcons.jsx`.

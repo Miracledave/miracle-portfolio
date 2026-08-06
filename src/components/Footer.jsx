@@ -1,29 +1,27 @@
-const Footer = () => {
-  return (
-    <footer className="py-8 px-4 border-t border-gray-800">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="text-gray-500 text-sm">
-          © 2026 Ndubuisi Miracle. All rights reserved.
-        </div>
-        
-        <div className="flex items-center gap-2 text-gray-500 text-sm">
-          Made using React
-        </div>
+import { ArrowUp } from 'lucide-react'
+import { site } from '../data/site'
+import SocialLinks from './SocialLinks'
 
-        <div className="flex gap-4 text-gray-500">
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
-            GH
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
-            LI
-          </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
-            TW
-          </a>
-        </div>
+const Footer = () => (
+  <footer className="border-t border-ink-700/60 py-10">
+    <div className="section-shell flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
+      <p className="order-2 text-sm text-zinc-600 sm:order-1">
+        © {new Date().getFullYear()} {site.name}. Built with React &amp; Tailwind CSS.
+      </p>
+
+      <div className="order-1 flex items-center gap-2 sm:order-2">
+        <SocialLinks size={17} />
+        <a
+          href="#top"
+          aria-label="Back to top"
+          title="Back to top"
+          className="rounded-lg p-2.5 text-zinc-500 transition-colors hover:bg-white/5 hover:text-zinc-100"
+        >
+          <ArrowUp size={17} strokeWidth={1.6} />
+        </a>
       </div>
-    </footer>
-  );
-};
+    </div>
+  </footer>
+)
 
-export default Footer;
+export default Footer

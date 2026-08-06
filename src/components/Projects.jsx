@@ -1,87 +1,145 @@
+import { ArrowUpRight } from 'lucide-react'
+import { GithubIcon } from './BrandIcons'
+import { projects } from '../data/site'
+import SectionHeading from './SectionHeading'
+import Reveal from './Reveal'
+
+const Tag = ({ children }) => (
+  <span className="rounded-full border border-ink-700 px-2.5 py-1 font-mono text-[11px] text-zinc-400">
+    {children}
+  </span>
+)
+
+const ProjectLinks = ({ github, live }) => (
+  <div className="flex flex-wrap items-center gap-5">
+    {github && (
+      <a
+        href={github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="link-underline text-sm"
+      >
+        <GithubIcon size={15} />
+        Source
+      </a>
+    )}
+    {live && (
+      <a href={live} target="_blank" rel="noopener noreferrer" className="link-underline text-sm">
+        <ArrowUpRight size={15} strokeWidth={1.7} />
+        Live site
+      </a>
+    )}
+  </div>
+)
+
+const Featured = ({ project }) => (
+  <Reveal className="group relative overflow-hidden rounded-2xl border border-ink-700 bg-ink-900/60 p-7 transition-colors hover:border-ink-600 sm:p-10">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-accent/[0.06] blur-3xl transition-opacity duration-500 group-hover:opacity-150"
+    />
+    <div className="relative">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="rounded-full bg-accent/10 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent">
+          Featured
+        </span>
+        <span className="font-mono text-xs text-zinc-500">{project.year}</span>
+      </div>
+
+      <h3 className="mt-6 text-2xl font-semibold tracking-tight text-zinc-50 sm:text-3xl">
+        {project.title}
+      </h3>
+      <p className="mt-2 font-mono text-xs text-zinc-500">{project.role}</p>
+
+      <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-400">
+        {project.description}
+      </p>
+
+      <ul className="mt-6 max-w-2xl space-y-2.5">
+        {project.highlights.map((h) => (
+          <li key={h} className="flex gap-3 text-sm leading-relaxed text-zinc-400">
+            <span aria-hidden="true" className="mt-2 h-px w-4 flex-none bg-ink-600" />
+            {h}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-7 flex flex-wrap gap-2">
+        {project.tags.map((t) => (
+          <Tag key={t}>{t}</Tag>
+        ))}
+      </div>
+
+      <div className="mt-8">
+        <ProjectLinks github={project.github} live={project.live} />
+      </div>
+    </div>
+  </Reveal>
+)
+
+const Card = ({ project, delay }) => (
+  <Reveal
+    delay={delay}
+    className="group flex flex-col rounded-2xl border border-ink-700 bg-ink-900/40 p-7 transition-colors hover:border-ink-600"
+  >
+    <div className="flex items-start justify-between gap-4">
+      <h3 className="text-lg font-semibold tracking-tight text-zinc-100 transition-colors group-hover:text-white">
+        {project.title}
+      </h3>
+      <span className="mt-1 flex-none font-mono text-xs text-zinc-600">{project.year}</span>
+    </div>
+
+    <p className="mt-4 text-sm leading-relaxed text-zinc-400">{project.description}</p>
+
+    <ul className="mt-4 space-y-2">
+      {project.highlights.map((h) => (
+        <li key={h} className="flex gap-2.5 text-sm leading-relaxed text-zinc-500">
+          <span aria-hidden="true" className="mt-2 h-px w-3 flex-none bg-ink-600" />
+          {h}
+        </li>
+      ))}
+    </ul>
+
+    <div className="mt-6 flex flex-wrap gap-2">
+      {project.tags.map((t) => (
+        <Tag key={t}>{t}</Tag>
+      ))}
+    </div>
+
+    <div className="mt-7 pt-1">
+      <ProjectLinks github={project.github} live={project.live} />
+    </div>
+  </Reveal>
+)
+
 const Projects = () => {
-  const projects = [
-    {
-      title: 'LADI - Campus Marketplace System',
-      description: 'Designed and built a full-stack web marketplace enabling Babcock University students and staff to buy, sell, and trade goods within the campus community.',
-      tags: ['React.js', 'Tailwind CSS', 'Supabase', 'Agile Sprints'],
-      emoji: '🛒',
-      github: 'https://github.com/Miracledave/LADI',
-    },
-    {
-      title: 'Personal Portfolio Website',
-      description: 'A fully responsive personal portfolio built with React and Tailwind CSS, featuring smooth UI, downloadable CV, and live deployment on Vercel.',
-      tags: ['React', 'Tailwind CSS', 'Vite'],
-      emoji: '🌐',
-      github: 'https://github.com/Miracledave/miracle-portfolio',
-    },
-    {
-      title: 'Nextcent Landing Page',
-      description: 'A pixel-perfect, responsive SaaS landing page built with React and Tailwind CSS, practising component architecture and multi-breakpoint layouts.',
-      tags: ['React', 'Tailwind CSS', 'CSS'],
-      emoji: '🎨',
-      github: 'https://github.com/Miracledave/Nextcent-Tailwind',
-    },
-    {
-      title: 'Food POS System',
-      description: 'A browser-based food point-of-sale system with menu browsing, cart management, and order tracking — built with vanilla JavaScript.',
-      tags: ['JavaScript', 'HTML', 'CSS'],
-      emoji: '🍔',
-      github: 'https://github.com/Miracledave/food-pos',
-    },
-  ];
+  const featured = projects.filter((p) => p.featured)
+  const rest = projects.filter((p) => !p.featured)
 
   return (
-    <section id="projects" className="py-20 px-4 bg-gray-900/50">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
-          <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full" />
-        </div>
+    <section id="work" className="scroll-mt-24 py-24 md:py-32">
+      <div className="section-shell">
+        <SectionHeading
+          num="01"
+          eyebrow="Selected work"
+          title="Things I've designed, built and shipped."
+          description="Each project below is something I took from an empty repository to a working product."
+        />
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="group bg-gray-950 rounded-xl overflow-hidden border border-gray-800 hover:border-blue-500/50 transition-all"
-            >
-              <div className="h-48 bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-6xl">
-                {project.emoji}
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold group-hover:text-blue-400 transition-colors mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-3 py-1 text-xs bg-blue-500/10 text-blue-400 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-blue-400 transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
-                  </svg>
-                  View on GitHub
-                </a>
-              </div>
-            </div>
+        <div className="space-y-6">
+          {featured.map((p) => (
+            <Featured key={p.title} project={p} />
           ))}
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {rest.map((p, i) => (
+              <Card key={p.title} project={p} delay={i * 0.06} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Projects;
+export default Projects

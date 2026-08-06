@@ -1,55 +1,44 @@
-const Skills = () => {
-  const skillCategories = [
-    {
-      title: 'Frontend',
-      skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
-    },
-    {
-      title: 'Backend',
-      skills: ['Node.js'],
-    },
-    {
-      title: 'Tools & Others',
-      skills: ['Git', 'Figma'],
-    },
-  ];
+import { skills } from '../data/site'
+import SectionHeading from './SectionHeading'
+import Reveal from './Reveal'
 
-  return (
-    <section id="skills" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Skills & Technologies</h2>
-          <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full" />
-        </div>
+const Skills = () => (
+  <section id="skills" className="scroll-mt-24 border-t border-ink-700/60 py-24 md:py-32">
+    <div className="section-shell">
+      <SectionHeading
+        num="03"
+        eyebrow="Capabilities"
+        title="Tools I reach for."
+        description="The stack I work in day to day, and the practices I bring to a team."
+      />
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {skillCategories.map((category, index) => (
-            <div
-              key={index}
-              className="bg-gray-900 rounded-xl p-6 border border-gray-800"
-            >
-              <h3 className="text-xl font-bold mb-6 text-blue-400">{category.title}</h3>
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex}>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium">{skill}</span>
-                    </div>
-                    <div className="w-full bg-gray-950 rounded-full h-2">
-                      <div
-                        className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
-                        style={{ width: `${85 + Math.random() * 15}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+      <div className="grid gap-px overflow-hidden rounded-2xl border border-ink-700 bg-ink-700 sm:grid-cols-2">
+        {skills.map((group, i) => (
+          <Reveal key={group.title} delay={i * 0.06} className="bg-ink-950 p-7 sm:p-8">
+            <div className="flex items-baseline gap-3">
+              <span className="font-mono text-xs text-ink-600">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-zinc-300">
+                {group.title}
+              </h3>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
 
-export default Skills;
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {group.items.map((item) => (
+                <li
+                  key={item}
+                  className="rounded-lg border border-ink-700 bg-ink-900/60 px-3 py-1.5 text-sm text-zinc-300 transition-colors hover:border-accent/40 hover:text-white"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+)
+
+export default Skills
